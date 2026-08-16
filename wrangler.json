@@ -2,12 +2,6 @@
   "name": "student-academicinformation-university-specialization-pref",
   "compatibility_date": "2026-08-16",
   "assets": {
-    "directory": ".",
-    "exclude": [
-      "**/.git/**",
-      ".git",
-      ".gemini/**",
-      "google-apps-script.gs"
-    ]
+    "directory": "./public"
   }
 }

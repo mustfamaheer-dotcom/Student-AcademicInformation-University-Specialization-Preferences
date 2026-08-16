@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استمارة تسجيل البيانات الأكاديمية ورغبات الجامعة</title>
+  <meta name="description" content="استمارة إلكترونية حديثة لتسجيل بيانات الطلاب والرغبات الجامعية بسهولة وأمان.">
+  
+  <!-- FontAwesome Icons & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background Decorative Orbs -->
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+
+  <div class="app-container">
+
+    <!-- Top Action Bar -->
+    <div class="top-bar">
+      <div class="draft-status" id="draftStatus">
+        <span class="draft-dot"></span>
+        <span id="draftText">جاري حفظ المسودة تلقائياً...</span>
+      </div>
+
+      <button type="button" class="theme-toggle-btn" id="themeToggleBtn">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+        <span id="themeLabel">المظهر الداكن</span>
+      </button>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header-card">
+      <div class="header-badge">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>منصة التسجيل الأكاديمي</span>
+      </div>
+      <h1 class="header-title">استمارة البيانات الأكاديمية والرغبات الجامعية</h1>
+      <p class="header-subtitle">
+        يرجى ملء كافة البيانات المطلوبة بدقة وتحديد الرغبات الجامعية بالترتيب المفضل من الرغبة الأولى وحتى السابعة.
+      </p>
+    </header>
+
+
+
+    <!-- Wizard Stepper Navigation Bar -->
+    <div class="wizard-progress-card">
+      <div class="wizard-progress">
+        <div class="progress-line-fill" id="progressFill"></div>
+
+        <div class="step-item active" data-step="1">
+          <div class="step-icon-box">
+            <i class="fa-solid fa-user-graduate step-icon"></i>
+            <i class="fa-solid fa-check step-check"></i>
+          </div>
+          <span class="step-label">البيانات الأكاديمية</span>
+        </div>
+
+        <div class="step-item" data-step="2">
+          <div class="step-icon-box">
+            <i class="fa-solid fa-list-ol step-icon"></i>
+            <i class="fa-solid fa-check step-check"></i>
+          </div>
+          <span class="step-label">الرغبات الجامعية</span>
+        </div>
+
+        <div class="step-item" data-step="3">
+          <div class="step-icon-box">
+            <i class="fa-solid fa-paper-plane step-icon"></i>
+            <i class="fa-solid fa-check step-check"></i>
+          </div>
+          <span class="step-label">المراجعة والإرسال</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Form Element -->
+    <form id="surveyForm" novalidate>
+
+      <div class="form-card">
+
+        <!-- ==================== STEP 1: Student & Academic Information ==================== -->
+        <section class="step-panel active" id="step1">
+          <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-user-graduate"></i></div>
+            <h2 class="section-title-text">البيانات الشخصية والأكاديمية</h2>
+          </div>
+
+          <div class="form-grid">
+
+            <!-- الإسم رباعي -->
+            <div class="form-group full-width">
+              <label class="form-label" for="fullName">
+                <span>الإسم رباعي</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="fullName" name="fullName" class="form-control" placeholder="أدخل اسمك الكترونياً رباعياً" required>
+                <i class="fa-solid fa-user input-icon"></i>
+              </div>
+              <span class="error-message">يرجى إدخال الاسم الرباعي كاملاً</span>
+            </div>
+
+            <!-- الرقم القومي -->
+            <div class="form-group">
+              <label class="form-label" for="nationalId">
+                <span>الرقم القومي</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="nationalId" name="nationalId" class="form-control" maxlength="14" placeholder="14 رقم من بطاقة الرقم القومي" required>
+                <i class="fa-solid fa-id-card input-icon"></i>
+              </div>
+              <span class="error-message">يرجى إدخال الرقم القومي صحيحاً (14 رقم)</span>
+            </div>
+
+            <!-- رقم التليفون (الطالب) -->
+            <div class="form-group">
+              <label class="form-label" for="phone">
+                <span>رقم التليفون (الطالب)</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="tel" id="phone" name="phone" class="form-control" maxlength="11" placeholder="مثال: 01012345678" required>
+                <i class="fa-solid fa-phone input-icon"></i>
+              </div>
+              <span class="error-message">يرجى إدخال رقم تليفون صحيح مكون من 11 رقم</span>
+            </div>
+
+            <!-- رقم الجلوس -->
+            <div class="form-group">
+              <label class="form-label" for="seatNumber">
+                <span>رقم الجلوس</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="seatNumber" name="seatNumber" class="form-control" placeholder="أدخل رقم الجلوس الخاص بك" required>
+                <i class="fa-solid fa-hashtag input-icon"></i>
+              </div>
+              <span class="error-message">يرجى إدخال رقم الجلوس</span>
+            </div>
+
+            <!-- التخصص -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>التخصص</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="radio-group-cards">
+                <label class="radio-card">
+                  <input type="radio" name="specialization" value="علمي علوم" required>
+                  <span class="radio-custom"></span>
+                  <span class="radio-text">علمي علوم</span>
+                </label>
+
+                <label class="radio-card">
+                  <input type="radio" name="specialization" value="علمي رياضة" required>
+                  <span class="radio-custom"></span>
+                  <span class="radio-text">علمي رياضة</span>
+                </label>
+              </div>
+              <span class="error-message">يرجى اختيار التخصص</span>
+            </div>
+
+            <!-- هل تم التقديم للجامعة ؟ -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>هل تم التقديم للجامعة ؟</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="radio-group-cards">
+                <label class="radio-card">
+                  <input type="radio" name="appliedToUniversity" value="نعم" required>
+                  <span class="radio-custom"></span>
+                  <span class="radio-text">نعم</span>
+                </label>
+
+                <label class="radio-card">
+                  <input type="radio" name="appliedToUniversity" value="لا" required>
+                  <span class="radio-custom"></span>
+                  <span class="radio-text">لا</span>
+                </label>
+              </div>
+              <span class="error-message">يرجى تحديد حالة التقديم للجامعة</span>
+            </div>
+
+            <!-- المجموع قبل المعامل -->
+            <div class="form-group">
+              <label class="form-label" for="scoreBefore">
+                <span>المجموع قبل المعامل</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="scoreBefore" name="scoreBefore" class="form-control" placeholder="أدخل المجموع قبل المعامل" required>
+                <i class="fa-solid fa-calculator input-icon"></i>
+              </div>
+              <span class="error-message">يرجى إدخال المجموع قبل المعامل</span>
+            </div>
+
+            <!-- المجموع بعد المعامل -->
+            <div class="form-group">
+              <label class="form-label" for="scoreAfter">
+                <span>المجموع بعد المعامل</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="scoreAfter" name="scoreAfter" class="form-control" placeholder="أدخل المجموع بعد المعامل" required>
+                <i class="fa-solid fa-square-root-variable input-icon"></i>
+              </div>
+              <span class="error-message">يرجى إدخال المجموع بعد المعامل</span>
+            </div>
+
+            <!-- GPA -->
+            <div class="form-group">
+              <label class="form-label" for="gpa">
+                <span>GPA</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="gpa" name="gpa" class="form-control" placeholder="مثال: 3.75 أو N/A" required>
+                <i class="fa-solid fa-chart-line input-icon"></i>
+              </div>
+              <span class="error-message">يرجى إدخال GPA</span>
+            </div>
+
+            <!-- المحافظة -->
+            <div class="form-group">
+              <label class="form-label" for="governorate">
+                <span>المحافظة</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <select id="governorate" name="governorate" class="form-control" required>
+                  <option value="" disabled selected>-- اختر المحافظة --</option>
+                  <option value="القاهرة">القاهرة</option>
+                  <option value="الجيزة">الجيزة</option>
+                  <option value="الإسكندرية">الإسكندرية</option>
+                  <option value="الدقهلية">الدقهلية</option>
+                  <option value="الشرقية">الشرقية</option>
+                  <option value="القليوبية">القليوبية</option>
+                  <option value="كفر الشيخ">كفر الشيخ</option>
+                  <option value="الغربية">الغربية</option>
+                  <option value="المنوفية">المنوفية</option>
+                  <option value="البحيرة">البحيرة</option>
+                  <option value="الإسماعيلية">الإسماعيلية</option>
+                  <option value="بورسعيد">بورسعيد</option>
+                  <option value="السويس">السويس</option>
+                  <option value="دمياط">دمياط</option>
+                  <option value="الفيوم">الفيوم</option>
+                  <option value="بني سويف">بني سويف</option>
+                  <option value="المنيا">المنيا</option>
+                  <option value="أسيوط">أسيوط</option>
+                  <option value="سوهاج">سوهاج</option>
+                  <option value="قنا">قنا</option>
+                  <option value="الأقصر">الأقصر</option>
+                  <option value="أسوان">أسوان</option>
+                  <option value="شمال سيناء">شمال سيناء</option>
+                  <option value="جنوب سيناء">جنوب سيناء</option>
+                  <option value="البحر الأحمر">البحر الأحمر</option>
+                  <option value="الوادي الجديد">الوادي الجديد</option>
+                  <option value="مطروح">مطروح</option>
+                </select>
+                <i class="fa-solid fa-location-dot input-icon"></i>
+              </div>
+              <span class="error-message">يرجى اختيار المحافظة</span>
+            </div>
+
+            <!-- المدرسة -->
+            <div class="form-group full-width">
+              <label class="form-label" for="school">
+                <span>المدرسة</span>
+                <span class="required-tag">إجباري</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="text" id="school" name="school" class="form-control" placeholder="أدخل اسم المدرسة الثانوية المقيد بها" required>
+                <i class="fa-solid fa-school input-icon"></i>
+              </div>
+              <span class="error-message">يرجى إدخال اسم المدرسة</span>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- ==================== STEP 2: University & Specialization Preferences ==================== -->
+        <section class="step-panel" id="step2">
+          <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-list-ol"></i></div>
+            <h2 class="section-title-text">رغبات الجامعة والتخصص (الرغبة 1 إلى 7)</h2>
+          </div>
+
+          <!-- Preferences loop 1 to 7 -->
+          <div class="preferences-container">
+
+            <!-- Preference 1 -->
+            <div class="pref-card">
+              <div class="pref-card-header">
+                <span class="pref-badge">1</span>
+                <span>الرغبة الأولى (الأولوية العليا)</span>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="pref1_university">اسم الجامعة (الرغبة الأولى)</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref1_university" name="pref1_university" class="form-control" placeholder="اسم الجامعة للرغبة الأولى" required>
+                    <i class="fa-solid fa-building-columns input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة اسم الجامعة للرغبة الأولى</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pref1_specialization">تخصص الرغبة الأولى</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref1_specialization" name="pref1_specialization" class="form-control" placeholder="اسم التخصص للرغبة الأولى" required>
+                    <i class="fa-solid fa-book-bookmark input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة تخصص الرغبة الأولى</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preference 2 -->
+            <div class="pref-card">
+              <div class="pref-card-header">
+                <span class="pref-badge">2</span>
+                <span>الرغبة الثانية</span>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="pref2_university">اسم الجامعة (الرغبة الثانية)</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref2_university" name="pref2_university" class="form-control" placeholder="اسم الجامعة للرغبة الثانية" required>
+                    <i class="fa-solid fa-building-columns input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة اسم الجامعة للرغبة الثانية</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pref2_specialization">التخصص لرغبة الثانية</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref2_specialization" name="pref2_specialization" class="form-control" placeholder="اسم التخصص للرغبة الثانية" required>
+                    <i class="fa-solid fa-book-bookmark input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة تخصص الرغبة الثانية</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preference 3 -->
+            <div class="pref-card">
+              <div class="pref-card-header">
+                <span class="pref-badge">3</span>
+                <span>الرغبة الثالثة</span>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="pref3_university">اسم الجامعة (الرغبة الثالثة)</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref3_university" name="pref3_university" class="form-control" placeholder="اسم الجامعة للرغبة الثالثة" required>
+                    <i class="fa-solid fa-building-columns input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة اسم الجامعة للرغبة الثالثة</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pref3_specialization">التخصص للرغبة الثالثة</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref3_specialization" name="pref3_specialization" class="form-control" placeholder="اسم التخصص للرغبة الثالثة" required>
+                    <i class="fa-solid fa-book-bookmark input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة تخصص الرغبة الثالثة</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preference 4 -->
+            <div class="pref-card">
+              <div class="pref-card-header">
+                <span class="pref-badge">4</span>
+                <span>الرغبة الرابعة</span>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="pref4_university">اسم الجامعة (الرغبة الرابعة)</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref4_university" name="pref4_university" class="form-control" placeholder="اسم الجامعة للرغبة الرابعة" required>
+                    <i class="fa-solid fa-building-columns input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة اسم الجامعة للرغبة الرابعة</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pref4_specialization">التخصص لرغبة الرابعة</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref4_specialization" name="pref4_specialization" class="form-control" placeholder="اسم التخصص للرغبة الرابعة" required>
+                    <i class="fa-solid fa-book-bookmark input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة تخصص الرغبة الرابعة</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preference 5 -->
+            <div class="pref-card">
+              <div class="pref-card-header">
+                <span class="pref-badge">5</span>
+                <span>الرغبة الخامسة</span>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="pref5_university">اسم الجامعة الرغبة الخامسة</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref5_university" name="pref5_university" class="form-control" placeholder="اسم الجامعة للرغبة الخامسة" required>
+                    <i class="fa-solid fa-building-columns input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة اسم الجامعة للرغبة الخامسة</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pref5_specialization">التخصص لرغبة الخامسة</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref5_specialization" name="pref5_specialization" class="form-control" placeholder="اسم التخصص للرغبة الخامسة" required>
+                    <i class="fa-solid fa-book-bookmark input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة تخصص الرغبة الخامسة</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preference 6 -->
+            <div class="pref-card">
+              <div class="pref-card-header">
+                <span class="pref-badge">6</span>
+                <span>الرغبة السادسة</span>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="pref6_university">اسم الجامعة الرغبة السادسة</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref6_university" name="pref6_university" class="form-control" placeholder="اسم الجامعة للرغبة السادسة" required>
+                    <i class="fa-solid fa-building-columns input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة اسم الجامعة للرغبة السادسة</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pref6_specialization">التخصص لرغبة السادسة</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref6_specialization" name="pref6_specialization" class="form-control" placeholder="اسم التخصص للرغبة السادسة" required>
+                    <i class="fa-solid fa-book-bookmark input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة تخصص الرغبة السادسة</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preference 7 -->
+            <div class="pref-card">
+              <div class="pref-card-header">
+                <span class="pref-badge">7</span>
+                <span>الرغبة السابعة</span>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="pref7_university">اسم الجامعة لرغبة السابعة</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref7_university" name="pref7_university" class="form-control" placeholder="اسم الجامعة للرغبة السابعة" required>
+                    <i class="fa-solid fa-building-columns input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة اسم الجامعة للرغبة السابعة</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="pref7_specialization">التخصص لرغبة السابعة</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="pref7_specialization" name="pref7_specialization" class="form-control" placeholder="اسم التخصص للرغبة السابعة" required>
+                    <i class="fa-solid fa-book-bookmark input-icon"></i>
+                  </div>
+                  <span class="error-message">يرجى كتابة تخصص الرغبة السابعة</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- ==================== STEP 3: Review & Final Submission ==================== -->
+        <section class="step-panel" id="step3">
+          <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <h2 class="section-title-text">مراجعة وتأكيد البيانات والمستندات</h2>
+          </div>
+
+          <div class="review-summary">
+            <!-- Academic Summary Box -->
+            <div class="review-box">
+              <div class="review-box-title">
+                <i class="fa-solid fa-id-card"></i>
+                <span>البيانات الأكاديمية والشخصية</span>
+              </div>
+              <div class="review-grid" id="reviewAcademicGrid">
+                <!-- Dynamically populated via JS -->
+              </div>
+            </div>
+
+            <!-- Preferences Summary Box -->
+            <div class="review-box">
+              <div class="review-box-title">
+                <i class="fa-solid fa-list-check"></i>
+                <span>جدول الرغبات الجامعية المحددة (1 - 7)</span>
+              </div>
+              <div style="overflow-x: auto;">
+                <table class="review-pref-table">
+                  <thead>
+                    <tr>
+                      <th>الرغبة</th>
+                      <th>اسم الجامعة</th>
+                      <th>التخصص المطلوب</th>
+                    </tr>
+                  </thead>
+                  <tbody id="reviewPrefTableBody">
+                    <!-- Dynamically populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Navigation Action Buttons -->
+        <div class="wizard-actions">
+          <button type="button" class="btn btn-secondary" id="prevBtn" style="visibility: hidden;">
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>السابق</span>
+          </button>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <button type="button" class="btn btn-secondary" id="printSummaryBtn" style="display: none;">
+              <i class="fa-solid fa-print"></i>
+              <span>طباعة الاستمارة</span>
+            </button>
+
+            <button type="button" class="btn btn-primary" id="nextBtn">
+              <span>التالي</span>
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+
+            <button type="submit" class="btn btn-accent" id="submitBtn" style="display: none;">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>تأكيد وإرسال الاستمارة</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <!-- Submission Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-card">
+      <div class="success-icon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">تم إرسال البيانات بنجاح!</h3>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+        تم تسجيل جميع البيانات الأكاديمية ورغباتك الـ 7 بنجاح في قاعدة البيانات.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center;">
+        <button type="button" class="btn btn-primary" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> طباعة نسخة
+        </button>
+        <button type="button" class="btn btn-secondary" id="closeModalBtn">
+          إغلاق
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
