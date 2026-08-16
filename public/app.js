@@ -162,6 +162,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Restrict Numeric Fields (National ID, Phone, Seat Number) to Digits Only
+  ['nationalId', 'phone', 'seatNumber'].forEach(fieldId => {
+    const inputEl = document.getElementById(fieldId);
+    if (!inputEl) return;
+    inputEl.addEventListener('input', (e) => {
+      // Normalize Arabic-Indic digits (٠-٩) to ASCII digits (0-9)
+      let val = e.target.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+      // Remove any non-digit character
+      val = val.replace(/\D/g, '');
+      e.target.value = val;
+    });
+  });
+
   // Step Validation Check
   function validateCurrentStep(step) {
     const stepPanel = document.getElementById(`step${step}`);

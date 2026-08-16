@@ -110,7 +110,7 @@
                 <span class="required-tag">إجباري</span>
               </label>
               <div class="input-wrapper">
-                <input type="text" id="nationalId" name="nationalId" class="form-control" maxlength="14" placeholder="14 رقم من بطاقة الرقم القومي" required>
+                <input type="text" id="nationalId" name="nationalId" class="form-control" inputmode="numeric" pattern="[0-9]*" maxlength="14" placeholder="14 رقم من بطاقة الرقم القومي" required>
                 <i class="fa-solid fa-id-card input-icon"></i>
               </div>
               <span class="error-message">يرجى إدخال الرقم القومي صحيحاً (14 رقم)</span>
@@ -123,7 +123,7 @@
                 <span class="required-tag">إجباري</span>
               </label>
               <div class="input-wrapper">
-                <input type="tel" id="phone" name="phone" class="form-control" maxlength="11" placeholder="مثال: 01012345678" required>
+                <input type="tel" id="phone" name="phone" class="form-control" inputmode="numeric" pattern="[0-9]*" maxlength="11" placeholder="مثال: 01012345678" required>
                 <i class="fa-solid fa-phone input-icon"></i>
               </div>
               <span class="error-message">يرجى إدخال رقم تليفون صحيح مكون من 11 رقم</span>
@@ -136,7 +136,7 @@
                 <span class="required-tag">إجباري</span>
               </label>
               <div class="input-wrapper">
-                <input type="text" id="seatNumber" name="seatNumber" class="form-control" placeholder="أدخل رقم الجلوس الخاص بك" required>
+                <input type="text" id="seatNumber" name="seatNumber" class="form-control" inputmode="numeric" pattern="[0-9]*" placeholder="أدخل رقم الجلوس الخاص بك" required>
                 <i class="fa-solid fa-hashtag input-icon"></i>
               </div>
               <span class="error-message">يرجى إدخال رقم الجلوس</span>
