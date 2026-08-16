@@ -504,8 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="review-item"><span class="review-key">رقم الجلوس:</span><span class="review-val">${escapeHtml(data.seatNumber || '-')}</span></div>
         <div class="review-item"><span class="review-key">التخصص:</span><span class="review-val">${escapeHtml(data.specialization || '-')}</span></div>
         <div class="review-item"><span class="review-key">هل تم التقديم للجامعة:</span><span class="review-val">${escapeHtml(data.appliedToUniversity || '-')}</span></div>
-        <div class="review-item"><span class="review-key">المجموع قبل المعامل:</span><span class="review-val">${escapeHtml(data.scoreBefore || '-')}</span></div>
-        <div class="review-item"><span class="review-key">المجموع بعد المعامل:</span><span class="review-val">${escapeHtml(data.scoreAfter || '-')}</span></div>
+        <div class="review-item"><span class="review-key">النسبة قبل المعامل:</span><span class="review-val">${escapeHtml(data.scoreBefore || '-')}</span></div>
+        <div class="review-item"><span class="review-key">النسبة بعد المعامل:</span><span class="review-val">${escapeHtml(data.scoreAfter || '-')}</span></div>
         <div class="review-item"><span class="review-key">GPA:</span><span class="review-val">${escapeHtml(data.gpa || '-')}</span></div>
         <div class="review-item"><span class="review-key">المحافظة:</span><span class="review-val">${escapeHtml(data.governorate || '-')}</span></div>
         <div class="review-item full-width"><span class="review-key">المدرسة:</span><span class="review-val">${escapeHtml(data.school || '-')}</span></div>
