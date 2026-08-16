@@ -23,10 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeLabel = document.getElementById('themeLabel');
   
   const draftStatus = document.getElementById('draftText');
-  const gasUrlInput = document.getElementById('gasUrlInput');
-  const configAccordion = document.getElementById('configAccordion');
-  const configToggle = document.getElementById('configToggle');
-  const configArrow = document.getElementById('configArrow');
   
   const successModal = document.getElementById('successModal');
   const closeModalBtn = document.getElementById('closeModalBtn');
@@ -37,18 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize Web App Config URL
   const savedGasUrl = localStorage.getItem('survey_gas_url') || DEFAULT_GAS_URL;
-  if (gasUrlInput) gasUrlInput.value = savedGasUrl;
-
-  gasUrlInput?.addEventListener('input', (e) => {
-    localStorage.setItem('survey_gas_url', e.target.value.trim());
-  });
-
-  // Config Accordion Toggle
-  configToggle?.addEventListener('click', () => {
-    configAccordion.classList.toggle('open');
-    configArrow.classList.toggle('fa-chevron-up');
-    configArrow.classList.toggle('fa-chevron-down');
-  });
 
   // Theme Management
   const currentTheme = localStorage.getItem('survey_theme') || 'light';
@@ -323,12 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!validateCurrentStep(currentStep)) return;
 
-    const targetUrl = gasUrlInput.value.trim() || savedGasUrl;
-    if (!targetUrl || targetUrl.includes('placeholder')) {
-      showToast('يرجى تحديد رابط Google Apps Script Web App URL من أعلى الصفحة لتسجيل البيانات في جوجل شيت', 'error');
-      configAccordion.classList.add('open');
-      return;
-    }
+    const targetUrl = savedGasUrl;
 
     submitBtn.disabled = true;
     submitBtn.innerHTML = `<span class="spinner"></span> جاري الإرسال...`;
