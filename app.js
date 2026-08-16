@@ -678,19 +678,3 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
-
-    e.key === 'J' || e.key === 'j' || e.keyCode === 74 ||
-      e.key === 'C' || e.key === 'c' || e.keyCode === 67
-    )) {
-      e.preventDefault();
-      return false;
-    }
-
-    // Ctrl+S / Cmd+S (Save Page)
-    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.keyCode === 83)) {
-      e.preventDefault();
-      return false;
-    }
-  });
-
-});
