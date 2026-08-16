@@ -469,6 +469,17 @@ body {
   margin-right: auto;
 }
 
+.optional-tag {
+  background: var(--input-bg);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  border: 1.5px solid var(--input-border);
+  margin-right: auto;
+}
+
 .input-wrapper {
   position: relative;
   display: flex;
