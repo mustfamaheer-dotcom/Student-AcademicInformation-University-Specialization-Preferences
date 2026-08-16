@@ -911,6 +911,65 @@ select.form-control {
   to { transform: rotate(360deg); }
 }
 
+/* Device Blocked Notice Card */
+.device-blocked-card {
+  background: var(--danger-light);
+  border: 2px solid var(--danger);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: var(--shadow-md);
+  animation: slideIn 0.4s ease;
+}
+
+[data-theme="dark"] .device-blocked-card {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.device-blocked-card .blocked-icon {
+  width: 54px;
+  height: 54px;
+  background: var(--danger);
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.device-blocked-card .blocked-content h3 {
+  color: var(--danger);
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+
+.device-blocked-card .blocked-content p {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Locked Form State */
+.form-card.device-locked {
+  opacity: 0.65;
+  pointer-events: none;
+  filter: grayscale(15%);
+}
+
+.device-locked input, 
+.device-locked select, 
+.device-locked button {
+  cursor: not-allowed !important;
+}
+
 /* Print Stylesheet */
 @media print {
   body {
@@ -918,7 +977,7 @@ select.form-control {
     color: #000000;
     padding: 0;
   }
-  .bg-orb, .wizard-progress, .wizard-actions, .top-bar, .config-accordion {
+  .bg-orb, .wizard-progress, .wizard-actions, .top-bar, .config-accordion, .device-blocked-card {
     display: none !important;
   }
   .form-card, .header-card {
@@ -930,3 +989,4 @@ select.form-control {
     display: block !important;
   }
 }
+
