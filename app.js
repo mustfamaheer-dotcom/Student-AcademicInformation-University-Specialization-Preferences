@@ -4,8 +4,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Default deployed Web App URL or placeholder for Google Sheet integration
-  const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbx_placeholder_deployment_url/exec';
+  // Deployed Google Apps Script Web App URL for Google Sheet (1CDzGI29VXplcBAIrtz19H75jBptDWuLtyYR-G53wp80)
+  const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbxC_L7iE8dRishH_WPC4QlgjxuOfKskb5_ygFct29Z1EdrG6MM2z3-K_z7sYSJZ5VPI/exec';
 
   // DOM Elements
   const surveyForm = document.getElementById('surveyForm');

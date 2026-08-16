@@ -51,7 +51,8 @@
    - **تنفيذ كـ (Execute as)**: أنا (`Me`).
    - **من يملك إمكانية الوصول (Who has access)**: أي شخص (`Anyone`).
 7. اضغط على **نشر (Deploy)** ووافق على الصلاحيات المطلوبة (Authorize access).
-8. انسخ **رابط تطبيق الويب (Web App URL)** الناتج وضعه في أعلى الصفحة في خانة الإعدادات أو قم بتعيينه كافتراضي في ملف `app.js`.
+8. **رابط تطبيق الويب المفعّل حالياً (Active Web App Endpoint)**:
+   `https://script.google.com/macros/s/AKfycbxC_L7iE8dRishH_WPC4QlgjxuOfKskb5_ygFct29Z1EdrG6MM2z3-K_z7sYSJZ5VPI/exec`
 
 ---
 
