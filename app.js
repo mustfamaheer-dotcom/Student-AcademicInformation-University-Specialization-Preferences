@@ -1,0 +1,384 @@
+/**
+ * Student Academic Information & University Preferences Form Application
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Default deployed Web App URL or placeholder for Google Sheet integration
+  const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbx_placeholder_deployment_url/exec';
+
+  // DOM Elements
+  const surveyForm = document.getElementById('surveyForm');
+  const stepPanels = document.querySelectorAll('.step-panel');
+  const stepItems = document.querySelectorAll('.step-item');
+  const progressFill = document.getElementById('progressFill');
+  
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const printSummaryBtn = document.getElementById('printSummaryBtn');
+  
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const themeIcon = document.getElementById('themeIcon');
+  const themeLabel = document.getElementById('themeLabel');
+  
+  const draftStatus = document.getElementById('draftText');
+  const gasUrlInput = document.getElementById('gasUrlInput');
+  const configAccordion = document.getElementById('configAccordion');
+  const configToggle = document.getElementById('configToggle');
+  const configArrow = document.getElementById('configArrow');
+  
+  const successModal = document.getElementById('successModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const toastContainer = document.getElementById('toastContainer');
+
+  let currentStep = 1;
+  const totalSteps = 3;
+
+  // Initialize Web App Config URL
+  const savedGasUrl = localStorage.getItem('survey_gas_url') || DEFAULT_GAS_URL;
+  if (gasUrlInput) gasUrlInput.value = savedGasUrl;
+
+  gasUrlInput?.addEventListener('input', (e) => {
+    localStorage.setItem('survey_gas_url', e.target.value.trim());
+  });
+
+  // Config Accordion Toggle
+  configToggle?.addEventListener('click', () => {
+    configAccordion.classList.toggle('open');
+    configArrow.classList.toggle('fa-chevron-up');
+    configArrow.classList.toggle('fa-chevron-down');
+  });
+
+  // Theme Management
+  const currentTheme = localStorage.getItem('survey_theme') || 'light';
+  applyTheme(currentTheme);
+
+  themeToggleBtn?.addEventListener('click', () => {
+    const activeTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(activeTheme);
+  });
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('survey_theme', theme);
+    if (theme === 'dark') {
+      themeIcon.className = 'fa-solid fa-sun';
+      themeLabel.textContent = 'المظهر الفاتح';
+    } else {
+      themeIcon.className = 'fa-solid fa-moon';
+      themeLabel.textContent = 'المظهر الداكن';
+    }
+  }
+
+  // Radio Card Selection Styling Helper
+  document.querySelectorAll('.radio-card input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const name = e.target.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+        r.closest('.radio-card')?.classList.remove('selected');
+      });
+      if (e.target.checked) {
+        e.target.closest('.radio-card')?.classList.add('selected');
+      }
+      clearFieldError(e.target.closest('.form-group'));
+      triggerAutoSave();
+    });
+  });
+
+  // Auto-Save Draft to LocalStorage
+  function triggerAutoSave() {
+    const formData = new FormData(surveyForm);
+    const dataObj = {};
+    formData.forEach((value, key) => {
+      dataObj[key] = value;
+    });
+    localStorage.setItem('survey_draft_data', JSON.stringify(dataObj));
+    if (draftStatus) {
+      draftStatus.textContent = 'تم حفظ المسودة';
+      setTimeout(() => {
+        if (draftStatus) draftStatus.textContent = 'جاري الحفظ التلقائي...';
+      }, 2000);
+    }
+  }
+
+  // Load Saved Draft
+  function loadDraft() {
+    const saved = localStorage.getItem('survey_draft_data');
+    if (!saved) return;
+    try {
+      const dataObj = JSON.parse(saved);
+      Object.keys(dataObj).forEach(key => {
+        const field = surveyForm.elements[key];
+        if (field) {
+          if (field instanceof NodeList || field.length > 1) {
+            Array.from(field).forEach(radio => {
+              if (radio.value === dataObj[key]) {
+                radio.checked = true;
+                radio.closest('.radio-card')?.classList.add('selected');
+              }
+            });
+          } else {
+            field.value = dataObj[key];
+          }
+        }
+      });
+    } catch (e) {
+      console.error('Error loading draft data', e);
+    }
+  }
+  loadDraft();
+
+  // Field Level Validation Rules
+  function validateGroup(group) {
+    const inputs = group.querySelectorAll('input, select, textarea');
+    let isValid = true;
+
+    inputs.forEach(input => {
+      if (input.type === 'radio') {
+        const name = input.name;
+        const checked = surveyForm.querySelector(`input[name="${name}"]:checked`);
+        if (input.hasAttribute('required') && !checked) {
+          isValid = false;
+        }
+      } else if (input.hasAttribute('required')) {
+        const val = input.value.trim();
+        if (!val) {
+          isValid = false;
+        } else if (input.id === 'nationalId' && !/^\d{14}$/.test(val)) {
+          isValid = false;
+        } else if (input.id === 'phone' && !/^01\d{9}$/.test(val)) {
+          isValid = false;
+        }
+      }
+    });
+
+    if (!isValid) {
+      group.classList.add('has-error');
+      inputs.forEach(i => i.classList.add('is-invalid'));
+    } else {
+      clearFieldError(group);
+    }
+
+    return isValid;
+  }
+
+  function clearFieldError(group) {
+    if (!group) return;
+    group.classList.remove('has-error');
+    group.querySelectorAll('.form-control').forEach(i => i.classList.remove('is-invalid'));
+  }
+
+  // Real-time Input Clearing on Typing
+  surveyForm.querySelectorAll('.form-control').forEach(control => {
+    control.addEventListener('input', (e) => {
+      const group = e.target.closest('.form-group');
+      if (group) clearFieldError(group);
+      triggerAutoSave();
+    });
+  });
+
+  // Step Validation Check
+  function validateCurrentStep(step) {
+    const stepPanel = document.getElementById(`step${step}`);
+    if (!stepPanel) return true;
+
+    const formGroups = stepPanel.querySelectorAll('.form-group');
+    let stepValid = true;
+
+    formGroups.forEach(group => {
+      if (!validateGroup(group)) {
+        stepValid = false;
+      }
+    });
+
+    if (!stepValid) {
+      showToast('يرجى التأكد من استكمال كافة الحقول المطلوبة بشكل صحيح', 'error');
+    }
+
+    return stepValid;
+  }
+
+  // Navigation Logic
+  function goToStep(targetStep) {
+    if (targetStep < 1 || targetStep > totalSteps) return;
+
+    stepPanels.forEach(panel => panel.classList.remove('active'));
+    document.getElementById(`step${targetStep}`)?.classList.add('active');
+
+    stepItems.forEach(item => {
+      const stepNum = parseInt(item.getAttribute('data-step'), 10);
+      item.classList.remove('active', 'completed');
+      if (stepNum === targetStep) {
+        item.classList.add('active');
+      } else if (stepNum < targetStep) {
+        item.classList.add('completed');
+      }
+    });
+
+    // Update Progress Line Fill Percentage
+    const fillPercent = ((targetStep - 1) / (totalSteps - 1)) * 100;
+    progressFill.style.width = `${fillPercent}%`;
+
+    currentStep = targetStep;
+
+    // Update Control Buttons Visibility
+    prevBtn.style.visibility = currentStep > 1 ? 'visible' : 'hidden';
+
+    if (currentStep === totalSteps) {
+      nextBtn.style.display = 'none';
+      submitBtn.style.display = 'inline-flex';
+      printSummaryBtn.style.display = 'inline-flex';
+      renderReviewSummary();
+    } else {
+      nextBtn.style.display = 'inline-flex';
+      submitBtn.style.display = 'none';
+      printSummaryBtn.style.display = 'none';
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  nextBtn?.addEventListener('click', () => {
+    if (validateCurrentStep(currentStep)) {
+      goToStep(currentStep + 1);
+    }
+  });
+
+  prevBtn?.addEventListener('click', () => {
+    goToStep(currentStep - 1);
+  });
+
+  // Step item header click directly
+  stepItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const target = parseInt(item.getAttribute('data-step'), 10);
+      if (target < currentStep) {
+        goToStep(target);
+      } else if (target > currentStep) {
+        if (validateCurrentStep(currentStep)) {
+          goToStep(target);
+        }
+      }
+    });
+  });
+
+  // Render Step 3 Review Data
+  function renderReviewSummary() {
+    const formData = new FormData(surveyForm);
+    const data = Object.fromEntries(formData.entries());
+
+    const academicGrid = document.getElementById('reviewAcademicGrid');
+    const prefTableBody = document.getElementById('reviewPrefTableBody');
+
+    if (academicGrid) {
+      academicGrid.innerHTML = `
+        <div class="review-item"><span class="review-key">الاسم رباعي:</span><span class="review-val">${escapeHtml(data.fullName || '-')}</span></div>
+        <div class="review-item"><span class="review-key">الرقم القومي:</span><span class="review-val">${escapeHtml(data.nationalId || '-')}</span></div>
+        <div class="review-item"><span class="review-key">رقم التليفون:</span><span class="review-val">${escapeHtml(data.phone || '-')}</span></div>
+        <div class="review-item"><span class="review-key">رقم الجلوس:</span><span class="review-val">${escapeHtml(data.seatNumber || '-')}</span></div>
+        <div class="review-item"><span class="review-key">التخصص:</span><span class="review-val">${escapeHtml(data.specialization || '-')}</span></div>
+        <div class="review-item"><span class="review-key">هل تم التقديم للجامعة:</span><span class="review-val">${escapeHtml(data.appliedToUniversity || '-')}</span></div>
+        <div class="review-item"><span class="review-key">المجموع قبل المعامل:</span><span class="review-val">${escapeHtml(data.scoreBefore || '-')}</span></div>
+        <div class="review-item"><span class="review-key">المجموع بعد المعامل:</span><span class="review-val">${escapeHtml(data.scoreAfter || '-')}</span></div>
+        <div class="review-item"><span class="review-key">GPA:</span><span class="review-val">${escapeHtml(data.gpa || '-')}</span></div>
+        <div class="review-item"><span class="review-key">المحافظة:</span><span class="review-val">${escapeHtml(data.governorate || '-')}</span></div>
+        <div class="review-item full-width"><span class="review-key">المدرسة:</span><span class="review-val">${escapeHtml(data.school || '-')}</span></div>
+      `;
+    }
+
+    if (prefTableBody) {
+      let tableRows = '';
+      for (let i = 1; i <= 7; i++) {
+        const uni = data[`pref${i}_university`] || '-';
+        const spec = data[`pref${i}_specialization`] || '-';
+        tableRows += `
+          <tr>
+            <td><strong>الرغبة ${i}</strong></td>
+            <td>${escapeHtml(uni)}</td>
+            <td>${escapeHtml(spec)}</td>
+          </tr>
+        `;
+      }
+      prefTableBody.innerHTML = tableRows;
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // Print button
+  printSummaryBtn?.addEventListener('click', () => {
+    window.print();
+  });
+
+  // Form Submission Handler
+  surveyForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!validateCurrentStep(currentStep)) return;
+
+    const targetUrl = gasUrlInput.value.trim() || savedGasUrl;
+    if (!targetUrl || targetUrl.includes('placeholder')) {
+      showToast('يرجى تحديد رابط Google Apps Script Web App URL من أعلى الصفحة لتسجيل البيانات في جوجل شيت', 'error');
+      configAccordion.classList.add('open');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<span class="spinner"></span> جاري الإرسال...`;
+
+    const formData = new FormData(surveyForm);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      // POST payload to Google Apps Script
+      await fetch(targetUrl, {
+        method: 'POST',
+        mode: 'no-cors', // Standard cross-origin posting to Google Apps Script
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // Clear draft storage on successful submission
+      localStorage.removeItem('survey_draft_data');
+
+      // Show success modal
+      successModal.classList.add('active');
+      showToast('تم إرسال كافة البيانات بنجاح إلى جوجل شيت!', 'success');
+
+    } catch (err) {
+      console.error('Submission Error:', err);
+      showToast('حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى أو التحقق من الاتصال.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>تأكيد وإرسال الاستمارة</span>`;
+    }
+  });
+
+  closeModalBtn?.addEventListener('click', () => {
+    successModal.classList.remove('active');
+  });
+
+  // Toast Helper
+  function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    const iconClass = type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check';
+    toast.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span>${escapeHtml(message)}</span>`;
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+});
