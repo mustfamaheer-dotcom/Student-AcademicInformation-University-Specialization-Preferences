@@ -193,7 +193,7 @@
                 <span class="required-tag">إجباري</span>
               </label>
               <div class="input-wrapper">
-                <input type="text" id="scoreBefore" name="scoreBefore" class="form-control" placeholder="أدخل المجموع قبل المعامل" required>
+                <input type="text" id="scoreBefore" name="scoreBefore" class="form-control" inputmode="decimal" pattern="[0-9.]*" placeholder="أدخل المجموع قبل المعامل" required>
                 <i class="fa-solid fa-calculator input-icon"></i>
               </div>
               <span class="error-message">يرجى إدخال المجموع قبل المعامل</span>
@@ -206,7 +206,7 @@
                 <span class="required-tag">إجباري</span>
               </label>
               <div class="input-wrapper">
-                <input type="text" id="scoreAfter" name="scoreAfter" class="form-control" placeholder="أدخل المجموع بعد المعامل" required>
+                <input type="text" id="scoreAfter" name="scoreAfter" class="form-control" inputmode="decimal" pattern="[0-9.]*" placeholder="أدخل المجموع بعد المعامل" required>
                 <i class="fa-solid fa-square-root-variable input-icon"></i>
               </div>
               <span class="error-message">يرجى إدخال المجموع بعد المعامل</span>
@@ -219,7 +219,7 @@
                 <span class="required-tag">إجباري</span>
               </label>
               <div class="input-wrapper">
-                <input type="text" id="gpa" name="gpa" class="form-control" placeholder="مثال: 3.75 أو N/A" required>
+                <input type="text" id="gpa" name="gpa" class="form-control" inputmode="decimal" pattern="[0-9.]*" placeholder="مثال: 3.75" required>
                 <i class="fa-solid fa-chart-line input-icon"></i>
               </div>
               <span class="error-message">يرجى إدخال GPA</span>

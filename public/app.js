@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Restrict Numeric Fields (National ID, Phone, Seat Number) to Digits Only
+  // Restrict Integer Numeric Fields (National ID, Phone, Seat Number) to Digits Only
   ['nationalId', 'phone', 'seatNumber'].forEach(fieldId => {
     const inputEl = document.getElementById(fieldId);
     if (!inputEl) return;
@@ -171,6 +171,24 @@ document.addEventListener('DOMContentLoaded', () => {
       let val = e.target.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
       // Remove any non-digit character
       val = val.replace(/\D/g, '');
+      e.target.value = val;
+    });
+  });
+
+  // Restrict Decimal Numeric Fields (Score Before, Score After, GPA) to Numbers and Decimal Point Only
+  ['scoreBefore', 'scoreAfter', 'gpa'].forEach(fieldId => {
+    const inputEl = document.getElementById(fieldId);
+    if (!inputEl) return;
+    inputEl.addEventListener('input', (e) => {
+      // Normalize Arabic-Indic digits (٠-٩) to ASCII digits (0-9)
+      let val = e.target.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+      // Remove any character that is not a digit or decimal point
+      val = val.replace(/[^0-9.]/g, '');
+      // Prevent multiple decimal points
+      const parts = val.split('.');
+      if (parts.length > 2) {
+        val = parts[0] + '.' + parts.slice(1).join('');
+      }
       e.target.value = val;
     });
   });
