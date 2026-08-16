@@ -76,4 +76,17 @@ npx http-server ./
 git add .
 git commit -m "Update student survey application"
 git push origin main
-```
+---
+
+## ☁️ النشر على Cloudflare Pages (Cloudflare Pages Setup)
+
+إذا ظهرت لك مشكلة أثناء النشر على Cloudflare Pages بسبب وجود أمر `npx wrangler deploy` افتراضي:
+
+1. اذهب إلى مشروعك في Cloudflare Pages $\rightarrow$ **Settings** $\rightarrow$ **Builds & deployments**.
+2. اضغط **Edit configuration** وتأكد من ضبط الآتي:
+   - **Framework preset**: `None` (أو `Static HTML`)
+   - **Build command**: *(اتركه فارغاً تماماً)*
+   - **Deploy command**: *(اتركه فارغاً تماماً)*
+   - **Build output directory**: `/` (أو `.`)
+3. احفظ الإعدادات واضغط **Retry deployment** وسيعمل الموقع بنجاح فوراً!
+

@@ -360,4 +360,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4000);
   }
 
+  // Security: Lock Right-Click Context Menu
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+
+  // Security: Disable DevTools & View Source Keyboard Shortcuts (F12, Ctrl+U, Ctrl+Shift+I, etc.)
+  document.addEventListener('keydown', (e) => {
+    // F12 key
+    if (e.key === 'F12' || e.keyCode === 123) {
+      e.preventDefault();
+      return false;
+    }
+
+    // Ctrl+U / Cmd+U (View Source)
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U' || e.keyCode === 85)) {
+      e.preventDefault();
+      return false;
+    }
+
+    // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (DevTools Inspect)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (
+      e.key === 'I' || e.key === 'i' || e.keyCode === 73 ||
+      e.key === 'J' || e.key === 'j' || e.keyCode === 74 ||
+      e.key === 'C' || e.key === 'c' || e.keyCode === 67
+    )) {
+      e.preventDefault();
+      return false;
+    }
+
+    // Ctrl+S / Cmd+S (Save Page)
+    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.keyCode === 83)) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
 });
