@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbxC_L7iE8dRishH_WPC4QlgjxuOfKskb5_ygFct29Z1EdrG6MM2z3-K_z7sYSJZ5VPI/exec';
 
   // Storage Keys
-  const DEVICE_SUBMITTED_KEY = 'survey_device_submitted';
+  const DEVICE_SUBMITTED_KEY = 'survey_device_submitted_v2';
 
   // DOM Elements
   const surveyForm = document.getElementById('surveyForm');
